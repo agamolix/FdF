@@ -6,7 +6,7 @@
 /*   By: atrilles <atrilles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:01:05 by atrilles          #+#    #+#             */
-/*   Updated: 2022/05/24 14:55:16 by atrilles         ###   ########.fr       */
+/*   Updated: 2022/05/27 10:19:25 by atrilles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,23 @@ int	populate_map(t_map *map, int fd)
 	char	*line;
 	char	**element;
 
-	i = 0;
-	j = 0;
+	i = -1;
+	j = -1;
 	map->max_z = 0;
-	while (i < map->nb_line)
+	while (++i < map->nb_line)
 	{
 		line = get_next_line(fd);
-		while (j < map->nb_col)
+		element = my_split(line, ' ');
+		while (++j < map->nb_col)
 		{
-			element = my_split(line, ' ');
 			map->coord[i * map->nb_col + j].x = j;
 			map->coord[i * map->nb_col + j].y = i;
 			map->coord[i * map->nb_col + j].z = my_atoi(element[j]);
 			map->coord[i * map->nb_col + j].c = find_color(element[j], map);
 			map->max_z = fmax(map->max_z, my_atoi(element[j]));
-			j++;
 		}
-		j = 0;
-		i++;
+		free_split(element, line);
+		j = -1;
 	}
 	return (0);
 }
@@ -58,6 +57,7 @@ int	calc_map(t_map *map, int fd)
 			max_col++;
 		map->nb_col = tern(max_col > map->nb_col, max_col, map->nb_col);
 		map->nb_line++;
+		free_split(element, line);
 		line = get_next_line(fd);
 	}
 	map->coord = malloc((map->nb_col * map->nb_line + 1) * sizeof(t_coord));

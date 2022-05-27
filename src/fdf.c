@@ -6,7 +6,7 @@
 /*   By: atrilles <atrilles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:24:00 by atrilles          #+#    #+#             */
-/*   Updated: 2022/05/24 15:06:10 by atrilles         ###   ########.fr       */
+/*   Updated: 2022/05/27 12:45:43 by atrilles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	exit_error(t_data *data, char *error)
 		free(data->win_ptr);
 	if (data->img.img_ptr)
 		free(data->img.img_ptr);
-	i = write(1, error, str_len(error));
-	i = write(1, "\n", 1);
+	i = write(2, error, str_len(error));
+	i = write(2, "\n", 1);
 	return (i);
 }
 
@@ -68,6 +68,8 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (argc != 2)
+		return (exit_error(&data, "error: no file"));
+	if (!str__cmp(argv[1], "maps") || !str__cmp(argv[1], "maps/"))
 		return (exit_error(&data, "error: no file"));
 	if (open_file(&data.map, argv[1]))
 		return (exit_error(&data, "error: invalid file"));

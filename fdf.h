@@ -6,7 +6,7 @@
 /*   By: atrilles <atrilles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:27:09 by atrilles          #+#    #+#             */
-/*   Updated: 2022/05/24 14:57:01 by atrilles         ###   ########.fr       */
+/*   Updated: 2022/05/27 12:43:42 by atrilles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,5 +173,7 @@ int		my_atoi(char *nptr);
 //-----utils-----
 int		tern(int i, int rtrue, int rfalse);
 float	tern_f(int i, float rtrue, float rfalse);
+void	free_split(char **element, char *line);
+int		str__cmp(const char *s1, const char *s2);
 
 #endif

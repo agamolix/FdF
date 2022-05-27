@@ -6,7 +6,7 @@
 /*   By: atrilles <atrilles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:38:41 by atrilles          #+#    #+#             */
-/*   Updated: 2022/05/24 14:04:53 by atrilles         ###   ########.fr       */
+/*   Updated: 2022/05/27 10:12:20 by atrilles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,17 @@ char	*forward(char const *str, char c)
 
 int	count(char const *str, char c)
 {
-	char	*temp;
-	char	*freetemp;
 	int		i;
 
 	i = 0;
-	temp = malloc((str_len(str) + 1) * sizeof(char));
-	freetemp = temp;
-	temp = forward(str, c);
-	while (temp[0])
+	str = forward(str, c);
+	while (str[0])
 	{
 		i++;
-		temp = temp + str_len(line(temp, c));
-		temp = forward(temp, c);
+		while (str[0] && str[0] != c)
+			str++;
+		str = forward(str, c);
 	}
-	free (freetemp);
 	return (i);
 }
 
@@ -73,18 +69,15 @@ char	**my_split(char const *s, char c)
 {
 	char const	**res;
 	int			i;
-	char		*temp;
 
 	res = malloc((count(s, c) + 1) * sizeof(char *));
 	i = 0;
-	temp = malloc((str_len(s) + 1) * sizeof(char));
-	temp = forward(s, c);
-	while (temp[0])
+	s = forward(s, c);
+	while (s[0])
 	{
-		res[i] = malloc((str_len(line(temp, c)) + 1) * sizeof(char));
-		res[i] = line(temp, c);
-		temp = temp + str_len(res[i]);
-		temp = forward(temp, c);
+		res[i] = line(s, c);
+		s = s + str_len(res[i]);
+		s = forward(s, c);
 		i++;
 	}
 	res[i] = 0;
